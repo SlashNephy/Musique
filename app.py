@@ -1,6 +1,8 @@
-import os
 import json
+import os
+import traceback
 import urllib.request
+
 from flask import Flask, jsonify, redirect
 from flask_cors import CORS
 
@@ -11,7 +13,7 @@ CORS(app)
 
 def get_recent_tracks(username):
     request = urllib.request.Request(
-        f"https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={username}&api_key={LASTFM_API_KEY}&format=json",
+        f"https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user={username}&api_key={LASTFM_API_KEY}&limit=1&extended=1&format=json",
         headers={
             "User-Agent": "Musique/1.0 (+https://github.com/SlashNephy/Musique)"
         }
@@ -21,12 +23,16 @@ def get_recent_tracks(username):
         content = response.read()
         return json.loads(content.decode())
 
-@app.route("/<username>")
-def api(username):
-    response = get_recent_tracks(username)
+@app.route("/recent_track/<username>")
+def recent_track(username):
+    try:
+        response = get_recent_tracks(username)
 
-    track = response["recenttracks"]["track"][0]
-    return jsonify(track)
+        track = response["recenttracks"]["track"][0]
+        return jsonify(track)
+    except Exception:
+        traceback.print_exc()
+        return jsonify({})
 
 @app.route("/")
 def index():
