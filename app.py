@@ -36,7 +36,7 @@ def recent_track(username):
 
 @app.route("/")
 def index():
-    return redirect("/AsteriaNocturna")
+    return redirect("https://github.com/SlashNephy/Musique")
 
 
 if __name__ == "__main__":
