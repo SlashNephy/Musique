@@ -25,7 +25,7 @@ def get_recent_tracks(username):
 def api(username):
     response = get_recent_tracks(username)
 
-    track = response["track"][0]
+    track = response["recenttracks"]["track"][0]
     return jsonify(track)
 
 @app.route("/")
