@@ -1,7 +1,7 @@
 import os
 import json
 import urllib.request
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect
 from flask_cors import CORS
 
 LASTFM_API_KEY = os.getenv("LASTFM_API_KEY")
@@ -23,18 +23,19 @@ def get_recent_tracks(username):
 
 @app.route("/<username>")
 def api(username):
-    try:
-        response = get_recent_tracks(username)
+    response = get_recent_tracks(username)
 
-        track = next(iter(response["track"]), None)
-        return jsonify(track)
-    except Exception as e:
-        print(e)
-        return jsonify({})
+    track = response["track"][0]
+    return jsonify(track)
+
+@app.route("/")
+def index():
+    return redirect("/AsteriaNocturna")
 
 
 if __name__ == "__main__":
     if not LASTFM_API_KEY:
         raise RuntimeError("LASTFM_API_KEY is not set.")
 
+    app.debug = True
     app.run()
