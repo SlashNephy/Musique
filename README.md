@@ -1,10 +1,20 @@
 # Musique
 
-Last.fm 経由で最近再生したトラック情報を返すだけの API サーバ
+🎧 Last.fm 経由で最近再生したトラック情報などを返すだけの API サーバ
 
-Last.fm の [user.getRecentTracks](https://www.last.fm/api/show/user.getRecentTracks) API を使用しています。
+## Endpoints
 
+- `GET /recent_track/<username>`  
+  最も最近に聞いた1曲を返します。  
+  [user.getRecentTracks](https://www.last.fm/api/show/user.getRecentTracks) API を使用しています。
 
+- `GET /top_tracks/<username>`  
+  トップトラックの配列を返します。  
+  [user.getTopTracks](https://www.last.fm/api/show/user.getTopTracks) API を使用しています。
+
+- `GET /top_artists/<username>`  
+  トップアーティストの配列を返します。  
+  [user.getTopArtists](https://www.last.fm/api/show/user.getTopArtists) API を使用しています。
 
 ## docker-compose
 
